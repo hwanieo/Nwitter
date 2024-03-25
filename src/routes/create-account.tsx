@@ -49,42 +49,42 @@ export default function CreateAccount() {
 
   const [isLoading, setIsLoading] = useState(false)
 
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+  })
 
   const [error, setError] = useState('')
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const {
-      target: { name, value },
-    } = e
-    if (name === 'name') {
-      setName(value)
-    } else if (name === 'email') {
-      setEmail(value)
-    } else if (name === 'password') {
-      setPassword(value)
-    }
+    const { name, value } = e.target
+    setFormData({ ...formData, [name]: value })
   }
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    if (isLoading || !name.trim() || !email.trim() || !password.trim()) return
+    if (
+      isLoading ||
+      !formData.name.trim() ||
+      !formData.email.trim() ||
+      !formData.password.trim()
+    )
+      return
 
     try {
       setIsLoading(true)
       const credentials = await createUserWithEmailAndPassword(
         auth,
-        email,
-        password
+        formData.email,
+        formData.password
       )
       console.log(credentials.user)
-      await updateProfile(credentials.user, { displayName: name })
+      await updateProfile(credentials.user, { displayName: formData.name })
       navigate('/')
     } catch (e) {
-      // setError(e)
+      // Error
     } finally {
       setIsLoading(false)
     }
@@ -97,7 +97,7 @@ export default function CreateAccount() {
         <Input
           onChange={onChange}
           name='name'
-          value={name}
+          value={formData.name}
           placeholder='Name'
           type='text'
           required
@@ -105,7 +105,7 @@ export default function CreateAccount() {
         <Input
           onChange={onChange}
           name='email'
-          value={email}
+          value={formData.email}
           placeholder='Email'
           type='email'
           required
@@ -113,7 +113,7 @@ export default function CreateAccount() {
         <Input
           onChange={onChange}
           name='password'
-          value={password}
+          value={formData.password}
           placeholder='Password'
           type='password'
           required
