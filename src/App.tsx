@@ -4,6 +4,7 @@ import styled, { createGlobalStyle } from 'styled-components'
 import reset from 'styled-reset'
 import Layout from './components/layout'
 import LoadingScreen from './components/loading-screen'
+import ProtectedRoute from './components/protected-route'
 import { auth } from './firebase'
 import CreateAccount from './routes/create-account'
 import Home from './routes/home'
@@ -13,7 +14,11 @@ import Proflie from './routes/proflie'
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Layout />,
+    element: (
+      <ProtectedRoute>
+        <Layout />
+      </ProtectedRoute>
+    ),
     children: [
       {
         path: '',
