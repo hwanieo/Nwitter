@@ -1,48 +1,17 @@
+import { FirebaseError } from 'firebase/app'
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
 import { ChangeEvent, FormEvent, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import styled from 'styled-components'
+import { Link, useNavigate } from 'react-router-dom'
+import {
+  Error,
+  Form,
+  Input,
+  Switcher,
+  Title,
+  Wrapper,
+} from '../components/auth-components'
+import GithubButton from '../components/github-button'
 import { auth } from '../firebase'
-
-const Wrapper = styled.div`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 420px;
-  padding: 50px 0;
-`
-
-const Title = styled.h1`
-  font-size: 42px;
-`
-
-const Form = styled.form`
-  margin-top: 50px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  width: 100%;
-`
-
-const Input = styled.input`
-  padding: 10px 20px;
-  border-radius: 50px;
-  border: none;
-  width: 100%;
-  font-size: 16px;
-  &[type='submit'] {
-    cursor: pointer;
-    &:hover {
-      opacity: 0.8;
-    }
-  }
-`
-
-const Error = styled.span`
-  font-weight: 600;
-  color: tomato;
-`
 
 export default function CreateAccount() {
   const navigate = useNavigate()
@@ -64,6 +33,7 @@ export default function CreateAccount() {
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    setError('')
 
     if (
       isLoading ||
@@ -80,11 +50,12 @@ export default function CreateAccount() {
         formData.email,
         formData.password
       )
-      console.log(credentials.user)
       await updateProfile(credentials.user, { displayName: formData.name })
       navigate('/')
     } catch (e) {
-      // Error
+      if (e instanceof FirebaseError) {
+        setError(e.message)
+      }
     } finally {
       setIsLoading(false)
     }
@@ -124,6 +95,10 @@ export default function CreateAccount() {
         />
       </Form>
       {error && <Error>{error}</Error>}
+      <Switcher>
+        Already have an account? <Link to='/login'>Log in &rarr;</Link>
+      </Switcher>
+      <GithubButton />
     </Wrapper>
   )
 }
