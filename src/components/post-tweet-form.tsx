@@ -1,5 +1,7 @@
-import { ChangeEvent, useId, useState } from 'react'
+import { addDoc, collection } from 'firebase/firestore'
+import { ChangeEvent, FormEvent, useId, useState } from 'react'
 import styled from 'styled-components'
+import { auth, db } from '../firebase'
 
 const Form = styled.form`
   display: flex;
@@ -75,8 +77,28 @@ export default function PostTweetForm() {
     }
   }
 
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const user = auth.currentUser
+    if (!user || isLoading || !tweet.trim() || tweet.length > 180) return
+
+    try {
+      setIsLoading(true)
+      await addDoc(collection(db, '/tweets'), {
+        tweet,
+        createdAt: Date.now(),
+        username: user.displayName || 'Anonymous',
+        id: user.uid,
+      })
+    } catch (e) {
+      console.log(e)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   return (
-    <Form>
+    <Form onSubmit={handleSubmit}>
       <TextArea
         rows={5}
         maxLength={180}
