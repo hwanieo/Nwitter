@@ -17,7 +17,6 @@ export default function CreateAccount() {
   const navigate = useNavigate()
 
   const [isLoading, setIsLoading] = useState(false)
-
   const [formData, setFormData] = useState({
     name: '',
     email: '',
