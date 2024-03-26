@@ -9,7 +9,7 @@ import { auth } from './firebase'
 import CreateAccount from './routes/create-account'
 import Home from './routes/home'
 import Login from './routes/login'
-import Proflie from './routes/proflie'
+import Profile from './routes/profile'
 
 const router = createBrowserRouter([
   {
@@ -26,7 +26,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'profile',
-        element: <Proflie />,
+        element: <Profile />,
       },
     ],
   },
