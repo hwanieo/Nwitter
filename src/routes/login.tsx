@@ -25,12 +25,12 @@ export default function Login() {
 
   const [error, setError] = useState('')
 
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setFormData({ ...formData, [name]: value })
   }
 
-  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setError('')
 
@@ -52,9 +52,9 @@ export default function Login() {
   return (
     <Wrapper>
       <Title>Log into 𝕏</Title>
-      <Form onSubmit={onSubmit}>
+      <Form onSubmit={handleSubmit}>
         <Input
-          onChange={onChange}
+          onChange={handleChange}
           name='email'
           value={formData.email}
           placeholder='Email'
@@ -62,7 +62,7 @@ export default function Login() {
           required
         />
         <Input
-          onChange={onChange}
+          onChange={handleChange}
           name='password'
           value={formData.password}
           placeholder='Password'
