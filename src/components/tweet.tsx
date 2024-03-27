@@ -36,8 +36,26 @@ const Payload = styled.p`
 `
 
 const EditPayload = styled.textarea`
-  margin: 10px 0px;
+  display: block;
+  background-color: black;
+  border: none;
+  outline: none;
+  color: white;
+  resize: none;
   font-size: 18px;
+`
+
+const EditButton = styled.button`
+  background-color: cornflowerblue;
+  color: white;
+  font-weight: 600;
+  border: 0;
+  font-size: 12px;
+  padding: 5px 10px;
+  text-transform: uppercase;
+  border-radius: 5px;
+  margin-right: 5px;
+  cursor: pointer;
 `
 
 const DeleteButton = styled.button`
@@ -52,23 +70,10 @@ const DeleteButton = styled.button`
   cursor: pointer;
 `
 
-const EditButton = styled.button`
-  background-color: cornflowerblue;
-  color: white;
-  font-weight: 600;
-  border: 0;
-  font-size: 12px;
-  padding: 5px 10px;
-  text-transform: uppercase;
-  border-radius: 5px;
-  margin-left: 5px;
-  cursor: pointer;
-`
-
 export default function Tweet({ username, photo, tweet, userId, id }: ITweet) {
   const [isLoading, setIsLoading] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
-  const [editText, setEditText] = useState('')
+  const [editText, setEditText] = useState(tweet)
 
   const user = auth.currentUser
 
@@ -105,32 +110,39 @@ export default function Tweet({ username, photo, tweet, userId, id }: ITweet) {
     } finally {
       setIsLoading(false)
     }
-    setEditText('')
     setIsEdit(false)
   }
   return (
     <Wrapper>
       <Column>
         <Username>{username}</Username>
+
         {isEdit ? (
           <EditPayload
+            rows={1}
+            cols={50}
             value={editText}
+            defaultValue={editText}
             onChange={handleChange}
-            placeholder={tweet}
+            required
           />
         ) : (
           <Payload>{tweet}</Payload>
         )}
+
         {user?.uid === userId ? (
-          <DeleteButton onClick={handleRemoteTweet}>
-            {isLoading ? 'Loading...' : 'Delete'}
-          </DeleteButton>
+          <>
+            {isEdit ? (
+              <EditButton onClick={handleEditSubmitButton}>Submit</EditButton>
+            ) : (
+              <EditButton onClick={() => setIsEdit(true)}>Edit</EditButton>
+            )}
+
+            <DeleteButton onClick={handleRemoteTweet}>
+              {isLoading ? 'Loading...' : 'Delete'}
+            </DeleteButton>
+          </>
         ) : null}
-        {!isEdit && user?.uid === userId ? (
-          <EditButton onClick={() => setIsEdit(true)}>Edit</EditButton>
-        ) : (
-          <EditButton onClick={handleEditSubmitButton}>Submit</EditButton>
-        )}
       </Column>
       <Column>{photo ? <Photo src={photo} /> : null}</Column>
     </Wrapper>
