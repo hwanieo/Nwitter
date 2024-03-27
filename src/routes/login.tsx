@@ -9,8 +9,8 @@ import {
   Switcher,
   Title,
   Wrapper,
-} from '../components/auth-components'
-import GithubButton from '../components/github-button'
+} from '../components/AuthComponents'
+import GithubButton from '../components/GithubButton'
 import { auth } from '../firebase'
 
 export default function Login() {
