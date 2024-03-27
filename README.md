@@ -1,30 +1,19 @@
-# React + TypeScript + Vite
+# Nwitter
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 설명
 
-Currently, two official plugins are available:
+Firebase를 활용한 TypeScript 기반 React 애플리케이션: 트위터 클론 코딩
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 추후 계획
 
-## Expanding the ESLint configuration
+- Firebase -> Supabase 전환
+- styled-component -> tailwindcss 전환
+- React.js -> Next.js 전환
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## 혼잣말
 
-- Configure the top-level `parserOptions` property like this:
+아직 많이 부족하기 때문에 계속해서 코드를 들여다보기도 해야 할 거고, 오래 걸리기도 할 것 같은데 익숙해지고 멋진 나만의 서비스를 개발할 때까지 🔥화이팅🔥
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+## 링크
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+https://nwitter-reloaded-3ff25.web.app/login
